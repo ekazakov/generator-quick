@@ -35,6 +35,8 @@ module.exports = yeoman.generators.Base.extend({
     writing: {
         app: function () {
             quickCopyTemplate(this, '_package.json', 'package.json');
+
+            this.composeWith('karma');
         },
 
         projectfiles: function () {
