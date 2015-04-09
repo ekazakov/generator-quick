@@ -35,35 +35,51 @@ module.exports = yeoman.generators.Base.extend({
     writing: {
         app: function () {
             quickCopyTemplate(this, '_package.json', 'package.json');
-
-            this.composeWith('karma');
+            quickCopyTemplate(this, 'gulp.js', 'gulp.js');
         },
 
         projectfiles: function () {
-            var dotfiles = [
-                'editorconfig',
-                'jscsrc',
-                'projectile',
-                {src: 'test-jshintrc', dest: 'test/.jshintrc'},
-                {src: 'app-jshintrc', dest: '.jshintrc'},
-            ];
+            quickCopyTemplate(this, 'editorconfig', '.editorconfig');
+            quickCopyTemplate(this, 'jscsrc', '.jscsrc');
+            quickCopyTemplate(this, 'projectile', '.projectile');
+            quickCopyTemplate(this, 'test-jshintrc', 'test/.jshintrc');
+            quickCopyTemplate(this, 'app-jshintrc', '.jshintrc');
+        },
 
-            var copyTemplate = _.ary(quickCopyTemplate, 2).bind(null,this);
-
-            _(dotfiles)
-                .tap(this.log.bind(this))
-                .map(function (file) {
-                    if (_(file).isString()) return {src: file, dest: '.' + file};
-                    return file;
-                })
-                .each(copyTemplate)
-                .value()
-            ;
+        karma: function () {
+            quickCopyTemplate(this, 'karma.conf.js', 'test/karma.conf.js');
         }
     },
 
     install: function () {
-        this.installDependencies();
+        var dependencies = [
+            'lodash',
+        ];
+
+        var devDependencies = [
+            'gulp',
+            'gulp-util',
+
+            'browserify',
+            'split',
+            'vinyl-transform',
+            'watchify',
+
+            'mocha',
+            'chai',
+            'sinon',
+            'sinon-chai',
+            'karma',
+            'karma-chai',
+            'karma-chai-sinon',
+            'karma-chrome-launcher',
+            'karma-mocha',
+            'karma-notify-reporter',
+            'karma-sinon'
+        ];
+
+        this.npmInstall(dependencies, {'save': true});
+        this.npmInstall(devDependencies, {'saveDev': true});
     },
 
 });
@@ -80,3 +96,16 @@ function quickCopyTemplate (ctx, template, dest) {
         ctx.destinationPath(dest)
     );
 }
+
+// var copyTemplate = _.ary(quickCopyTemplate, 2).bind(null,this);
+
+//             _(dotfiles)
+//                 .map(createFileObj)
+//                 .each(copyTemplate)
+//                 .value()
+//             ;
+
+//             function createFileObj (file) {
+//                 if (_(file).isString()) return {src: file, dest: '.' + file};
+//                 return file;
+//             }

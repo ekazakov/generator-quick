@@ -25,8 +25,7 @@
         "yosay": "^1.0.2"
     },
     "peerDependencies": {
-        "yo": ">=1.0.0",
-        "generator-karma": ">=0.9.0"
+        "yo": ">=1.0.0"
     },
     "devDependencies": {
         "lodash": "^3.6.0",
