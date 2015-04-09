@@ -1,0 +1,31 @@
+{
+  "name": "generator-quick",
+  "version": "0.0.0",
+  "description": "Yeoman generator",
+  "license": "MIT",
+  "main": "app/index.js",
+  "repository": "ekazakov/generator-quick",
+  "author": {
+    "name": "Evgeniy Kazakov",
+    "email": "",
+    "url": "https://github.com/ekazakov"
+  },
+  "scripts": {
+    "test": "mocha"
+  },
+  "files": [
+    "app"
+  ],
+  "keywords": [
+    "yeoman-generator"
+  ],
+  "dependencies": {
+    "yeoman-generator": "^0.19.0",
+    "chalk": "^1.0.0",
+    "yosay": "^1.0.2"
+  },
+  "devDependencies": {
+    "lodash": "^3.6.0",
+    "mocha": "*"
+  }
+}
