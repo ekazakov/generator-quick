@@ -8,7 +8,7 @@ module.exports = function(config) {
         frameworks: ['mocha', 'chai-sinon', 'sinon'],
 
         // list of files / patterns to load in the browser
-        files: ['js/index.js'],
+        files: ['tests/index.js'],
 
         client: {
             mocha: {reporter: 'html'} // change Karma's debug.html to the mocha web reporter

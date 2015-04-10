@@ -5,53 +5,61 @@ var yosay = require('yosay');
 var _ = require('lodash');
 
 module.exports = yeoman.generators.Base.extend({
+    constructor: function () {
+        yeoman.generators.Base.apply(this, arguments);
+
+        this.option('skipInstall');
+    },
+
     initializing: function () {
         this.pkg = require('../package.json');
     },
 
     prompting: function () {
         var done = this.async();
+        done();
 
-        // Have Yeoman greet the user.
-        this.log(yosay(
-            'Welcome to the first-rate ' + chalk.red('Quick') + ' generator!'
-        ));
+        // this.log(yosay('Welcome to the first-rate ' + chalk.red('Quick') + ' generator!'));
 
-        var prompts = [{
-            type: 'confirm',
-            name: 'someOption',
-            message: 'Would you like to enable this option?',
-            default: true
-        }];
+        // var prompts = [{
+        //     type: 'confirm',
+        //     name: 'someOption',
+        //     message: 'Would you like to enable this option?',
+        //     default: true
+        // }];
 
-        this.prompt(prompts, function (props) {
-            this.props = props;
-            // To access props later use this.props.someOption;
+        // this.prompt(prompts, function (props) {
+        //     this.props = props;
+        //     // To access props later use this.props.someOption;
 
-            done();
-        }.bind(this));
+        //     done();
+        // }.bind(this));
     },
 
     writing: {
         app: function () {
             quickCopyTemplate(this, '_package.json', 'package.json');
-            quickCopyTemplate(this, 'gulp.js', 'gulp.js');
+            quickCopyTemplate(this, 'gulpfile.js', 'gulpfile.js');
         },
 
         projectfiles: function () {
             quickCopyTemplate(this, 'editorconfig', '.editorconfig');
             quickCopyTemplate(this, 'jscsrc', '.jscsrc');
             quickCopyTemplate(this, 'projectile', '.projectile');
-            quickCopyTemplate(this, 'test-jshintrc', 'test/.jshintrc');
-            quickCopyTemplate(this, 'app-jshintrc', '.jshintrc');
+            quickCopyTemplate(this, 'jshintrc', '.jshintrc');
         },
 
-        karma: function () {
-            quickCopyTemplate(this, 'karma.conf.js', 'test/karma.conf.js');
+        tests: function () {
+            quickCopyTemplate(this, 'tests/karma.conf.js', 'karma.conf.js');
+            quickCopyTemplate(this, 'tests/jshintrc', 'tests/.jshintrc');
+            quickCopyTemplate(this, 'tests/index.js', 'tests-index.js');
+            quickCopyTemplate(this, 'tests/spec/test-a.js', 'tests/spec/test-a.js');
         }
     },
 
     install: function () {
+        if (this.options.skipInstall) return;
+
         var dependencies = [
             'lodash',
         ];
@@ -62,17 +70,21 @@ module.exports = yeoman.generators.Base.extend({
 
             'browserify',
             'split',
-            'vinyl-transform',
+            // 'vinyl-transform',
+            'vinyl-source-stream',
             'watchify',
 
             'mocha',
             'chai',
             'sinon',
             'sinon-chai',
+            'phantomjs',
+
             'karma',
             'karma-chai',
             'karma-chai-sinon',
             'karma-chrome-launcher',
+            'karma-phantomjs-launcher',
             'karma-mocha',
             'karma-notify-reporter',
             'karma-sinon'
